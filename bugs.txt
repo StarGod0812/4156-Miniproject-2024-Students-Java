@@ -1,0 +1,73 @@
+# Bugs Fixed in 4156 Individual Project
+
+## Bugs Fixed in RouteController.java
+
+1. **Unnecessary Use of 'value' in Annotations**
+   - **Location**: RouteController.java
+   - **Description**: The 'value' attribute in annotations was unnecessary when it was the only attribute.
+   - **Fix**: Removed the 'value' attribute where it was not needed.
+
+2. **Loose Coupling with Implementation Types**
+   - **Location**: RouteController.java
+   - **Description**: The code used concrete 'HashMap' instances instead of the 'Map' interface, leading to tight coupling.
+   - **Fix**: Replaced 'HashMap' with 'Map' to follow the interface segregation principle.
+
+3. **Unused Local Variables**
+   - **Location**: RouteController.java
+   - **Description**: Local variables were declared but not used in the code.
+   - **Fix**: Removed the unused local variables to clean up the code.
+
+## Bugs Fixed in IndividualProjectApplication.java
+
+1. **Improper String Comparisons**
+   - **Location**: IndividualProjectApplication.java
+   - **Description**: String comparisons were not placing literals first, which is a best practice to prevent potential `NullPointerExceptions`.
+   - **Fix**: Modified string comparisons to place literals first.
+
+2. **Loose Coupling with Implementation Types**
+   - **Location**: IndividualProjectApplication.java
+   - **Description**: The code used concrete 'HashMap' instances instead of the 'Map' interface.
+   - **Fix**: Replaced 'HashMap' with 'Map' to reduce coupling.
+
+## Bugs Fixed in MyFileDatabase.java
+
+1. **Methods Returning Null Instead of Empty Map**
+   - **Location**: MyFileDatabase.java
+   - **Description**: Methods were returning null instead of an empty Map, which could lead to `NullPointerExceptions`.
+   - **Fix**: Modified methods to return an empty Map instead of null.
+
+2. **File Path Check in Constructor**
+   - **Location**: MyFileDatabase.java
+   - **Description**: The constructor did not validate the file path, which could lead to issues when attempting to read or write to the file.
+   - **Fix**: Added checks in the constructor to ensure the file path is valid.
+
+## Bugs Fixed in Department.java
+
+1. **Unused Import Statements**
+   - **Location**: Department.java
+   - **Description**: There were unused import statements in the file, which can clutter the code.
+   - **Fix**: Removed all unused import statements.
+
+2. **Fixed Return Results**
+   - **Location**: Department.java
+   - **Description**: Methods were not returning the correct results due to incorrect logic or missing validation.
+   - **Fix**: Corrected the logic in methods to ensure they return accurate results.
+
+3. **Check Before Dropping Person from Major**
+   - **Location**: Department.java
+   - **Description**: The method to drop a person from a major did not check if there were any majors to drop.
+   - **Fix**: Added a check to ensure that the number of majors is greater than zero before attempting to drop a person.
+
+## Additional Formatting and Code Style Issues
+
+- **Line Length and Indentation**
+   - **Location**: Various files
+   - **Description**: Lines exceeded the recommended length, and indentation was not consistent.
+   - **Fix**: Adjusted line lengths and ensured consistent indentation.
+
+- **Proper Placement of Braces and Semicolons**
+   - **Location**: Various files
+   - **Description**: Braces and semicolons were not placed according to style guidelines.
+   - **Fix**: Reformatted code to follow consistent brace and semicolon placement rules.
+
+all existing tests passed successfully.
