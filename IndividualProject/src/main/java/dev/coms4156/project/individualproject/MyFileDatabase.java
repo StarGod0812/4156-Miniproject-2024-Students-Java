@@ -46,7 +46,7 @@ public class MyFileDatabase {
    *
    * @return A map containing department mappings.
    */
-  private Map<String, Department> deserializeDataFromFile() {
+  Map<String, Department> deserializeDataFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object readObject = in.readObject();
       if (readObject instanceof Map<?, ?>) {

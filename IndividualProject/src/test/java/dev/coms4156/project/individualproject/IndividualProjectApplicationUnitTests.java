@@ -7,6 +7,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,66 +19,126 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class IndividualProjectApplicationUnitTests {
 
-    private IndividualProjectApplication application;
-    private MyFileDatabase mockDatabase;
+  private IndividualProjectApplication application;
+  private MyFileDatabase mockDatabase;
 
-    /**
-     * Sets up the test environment before each test method.
-     */
-    @BeforeEach
-    public void setUp() {
-        application = new IndividualProjectApplication();
-        mockDatabase = Mockito.mock(MyFileDatabase.class);
-        IndividualProjectApplication.overrideDatabase(mockDatabase);
-    }
+  /**
+   * Sets up the test environment before each test method.
+   */
+  @BeforeEach
+  public void setUp() {
+    application = new IndividualProjectApplication();
+    mockDatabase = Mockito.mock(MyFileDatabase.class);
+    IndividualProjectApplication.overrideDatabase(mockDatabase);
+  }
 
-    /**
-     * Tests the run method with the "setup" argument.
-     */
-    @Test
-    public void testRunWithSetupArgument() {
-        // Given
-        String[] args = {"setup"};
+  /**
+   * Cleans up after each test.
+   */
+  @AfterEach
+  public void tearDown() {
+    IndividualProjectApplication.myFileDatabase = null;
+  }
 
-        // When
-        application.run(args);
+  /**
+   * Tests the run method with the "setup" argument.
+   */
+  @Test
+  public void testRunWithSetupArgument() {
+    // Given
+    String[] args = {"setup"};
 
-        // Then
-        assertNotNull(IndividualProjectApplication.myFileDatabase);
-        verify(mockDatabase, never()).saveContentsToFile();
-        System.out.println("testRunWithSetupArgument passed");
-    }
+    // When
+    application.run(args);
 
-    /**
-     * Tests the run method without the "setup" argument.
-     */
-    @Test
-    public void testRunWithoutSetupArgument() {
-        // Given
-        String[] args = {};
+    // Then
+    assertNotNull(IndividualProjectApplication.myFileDatabase);
+    verify(mockDatabase, never()).saveContentsToFile();
+    System.out.println("testRunWithSetupArgument passed");
+  }
 
-        // When
-        application.run(args);
+  /**
+   * Tests the run method without the "setup" argument.
+   */
+  @Test
+  public void testRunWithoutSetupArgument() {
+    // Given
+    String[] args = {};
 
-        // Then
-        assertNotNull(IndividualProjectApplication.myFileDatabase);
-        verify(mockDatabase, never()).saveContentsToFile();
-        System.out.println("testRunWithoutSetupArgument passed");
-    }
+    // When
+    application.run(args);
 
-    /**
-     * Tests the resetDataFile method to ensure it correctly sets up the database mapping.
-     */
-    @Test
-    public void testResetDataFile() {
-        // Given
-        doNothing().when(mockDatabase).setMapping(any());
+    // Then
+    assertNotNull(IndividualProjectApplication.myFileDatabase);
+    verify(mockDatabase, never()).saveContentsToFile();
+    System.out.println("testRunWithoutSetupArgument passed");
+  }
 
-        // When
-        application.resetDataFile();
+  /**
+   * Tests the resetDataFile method to ensure it correctly sets up the database mapping.
+   */
+  @Test
+  public void testResetDataFile() {
+    // Given
+    doNothing().when(mockDatabase).setMapping(any());
 
-        // Then
-        verify(mockDatabase, times(1)).setMapping(any());
-        System.out.println("testResetDataFile passed");
-    }
+    // When
+    application.resetDataFile();
+
+    // Then
+    verify(mockDatabase, times(1)).setMapping(any());
+    System.out.println("testResetDataFile passed");
+  }
+
+  /**
+   * Tests the onTermination method when saveData is true.
+   */
+  @Test
+  public void testOnTerminationWithSaveDataTrue() {
+    // Given
+    IndividualProjectApplication.saveData = true;  // 确保 saveData 被设置为 true
+    IndividualProjectApplication.myFileDatabase = mockDatabase;  // mockDatabase 作为数据库实例
+    doNothing().when(mockDatabase).saveContentsToFile();  // 不执行实际的保存操作
+
+    // When
+    application.onTermination();  // 调用 onTermination 方法
+
+    // Then
+    verify(mockDatabase, times(1)).saveContentsToFile();  // 验证 saveContentsToFile 被调用了一次
+    System.out.println("testOnTerminationWithSaveDataTrue passed");
+  }
+
+  /**
+   * Tests the onTermination method when saveData is false.
+   */
+  @Test
+  public void testOnTerminationWithSaveDataFalse() {
+    // Given
+    IndividualProjectApplication.saveData = false;
+    IndividualProjectApplication.myFileDatabase = mockDatabase;
+
+    // When
+    application.onTermination();
+
+    // Then
+    verify(mockDatabase, never()).saveContentsToFile();
+    System.out.println("testOnTerminationWithSaveDataFalse passed");
+  }
+
+  /**
+   * Tests the overrideDatabase method.
+   */
+  @Test
+  public void testOverrideDatabase() {
+    // Given
+    MyFileDatabase testDatabase = Mockito.mock(MyFileDatabase.class);
+
+    // When
+    IndividualProjectApplication.overrideDatabase(testDatabase);
+
+    // Then
+    assertNotNull(IndividualProjectApplication.myFileDatabase);
+    verify(testDatabase, never()).saveContentsToFile();
+    System.out.println("testOverrideDatabase passed");
+  }
 }

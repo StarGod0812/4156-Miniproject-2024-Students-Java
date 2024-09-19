@@ -96,7 +96,7 @@ public class Department implements Serializable {
   }
 
   /**
-   * Provides a string representation of the department, including its code and the courses it offers.
+   * Provides a string representation of the department, including its code and the courses offered.
    *
    * @return A string representing the department.
    */

@@ -178,7 +178,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     Department chem = new Department("CHEM", courses, "Laura J. Kaufman", 250);
     mapping.put("CHEM", chem);
 
-// Data for PHYS department
+    // Data for PHYS department
     Course phys1001 = new Course("Szabolcs Marka", "301 PUP", times[3], 150);
     phys1001.setEnrolledStudentCount(131);
     Course phys1201 = new Course("Eric Raymer", "428 PUP", times[3], 145);
@@ -209,7 +209,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     Department phys = new Department("PHYS", courses, "Dmitri N. Basov", 43);
     mapping.put("PHYS", phys);
 
-// Data for ELEN department
+    // Data for ELEN department
     Course elen1201 = new Course("David G Vallancourt", "301 PUP", times[1], 120);
     elen1201.setEnrolledStudentCount(108);
     Course elen3082 = new Course("Kenneth Shepard", "1205 MUDD", "4:10-6:40", 32);
@@ -240,7 +240,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     Department elen = new Department("ELEN", courses, "Ioannis Kymissis", 250);
     mapping.put("ELEN", elen);
 
-// Data for PSYC department
+    // Data for PSYC department
     Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
     psyc1001.setEnrolledStudentCount(191);
     Course psyc1610 = new Course("Christopher Baldassano", "200 SCH", times[2], 45);
@@ -274,9 +274,18 @@ public class IndividualProjectApplication implements CommandLineRunner {
   }
 
   /**
-
-   Performs cleanup tasks during application shutdown, saving data if necessary. */ @PreDestroy public void onTermination() { System.out.println("Termination"); if (saveData) { myFileDatabase.saveContentsToFile(); } }
+   * Performs cleanup tasks during application shutdown,
+   * saving data if necessary.
+   */
+  @PreDestroy
+  public void onTermination() {
+    System.out.println("Termination");
+    if (saveData) {
+      myFileDatabase.saveContentsToFile();
+    }
+  }
   // Static instance of the database.
+
   public static MyFileDatabase myFileDatabase;
-  private static boolean saveData = true;
+  public static boolean saveData = true;
 }

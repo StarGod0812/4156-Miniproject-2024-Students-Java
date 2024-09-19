@@ -4,7 +4,8 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * Represents a course entity with details such as the instructor, location, timeslot, capacity, and number of enrolled students.
+ * Represents a course entity with details such as the instructor,
+ * location, timeslot, capacity, and number of enrolled students.
  */
 public class Course implements Serializable {
 
@@ -27,7 +28,8 @@ public class Course implements Serializable {
   private String courseTimeSlot;
 
   /**
-   * Creates a new course object with the specified parameters. The initial number of enrolled students is set to zero.
+   * Creates a new course object with the specified parameters.
+   * The initial number of enrolled students is set to zero.
    *
    * @param instructorName The name of the instructor.
    * @param courseLocation The location where the course is taught.
@@ -142,6 +144,7 @@ public class Course implements Serializable {
 
   @Override
   public String toString() {
-    return "\nInstructor: " + this.instructorName + "; Location: " + this.courseLocation + "; Time: " + this.courseTimeSlot;
+    return "\nInstructor: " + this.instructorName + "; Location: "
+            + this.courseLocation + "; Time: " + this.courseTimeSlot;
   }
 }

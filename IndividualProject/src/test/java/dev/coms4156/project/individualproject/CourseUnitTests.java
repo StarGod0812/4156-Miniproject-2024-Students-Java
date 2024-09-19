@@ -119,4 +119,47 @@ public class CourseUnitTests {
     // Attempt to drop a student and verify success
     assertTrue(testCourse.dropStudent());
   }
+
+  /**
+   * Tests when the course is full and a student tries to enroll.
+   */
+  @Test
+  public void testEnrollWhenCourseIsFull() {
+    testCourse.setEnrolledStudentCount(250); // Set to full capacity
+    assertTrue(testCourse.isCourseFull());
+    // Attempt to enroll a student when the course is full
+    assertFalse(testCourse.enrollStudent());
+  }
+
+  /**
+   * Tests when no students are enrolled and a student tries to drop.
+   */
+  @Test
+  public void testDropWhenNoStudentsEnrolled() {
+    testCourse.setEnrolledStudentCount(0); // No students enrolled
+    assertFalse(testCourse.dropStudent());
+  }
+
+  /**
+   * Tests the edge case when enrollment is exactly one less than capacity.
+   */
+  @Test
+  public void testEnrollOneBeforeFull() {
+    testCourse.setEnrolledStudentCount(249); // One less than capacity
+    assertFalse(testCourse.isCourseFull());
+    // Enroll one more student and check if the course becomes full
+    assertTrue(testCourse.enrollStudent());
+    assertTrue(testCourse.isCourseFull());
+  }
+
+  /**
+   * Tests reassigning instructor to an empty string.
+   */
+  @Test
+  public void testReassignInstructorToEmpty() {
+    testCourse.reassignInstructor(""); // Assign empty string as instructor name
+    assertEquals("", testCourse.getInstructorName());
+    // Reassign back to original instructor name
+    testCourse.reassignInstructor("Griffin Newbold");
+  }
 }
